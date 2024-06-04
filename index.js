@@ -28,13 +28,13 @@ app.get("/api/:date?", function (req, res) {
     return res.json({ "unix": now.getTime(), "utc": now.toUTCString() });
   }
 
-  if (!isNaN(parseInt(req.params['date'])) && !req.params['date'].includes('-')) {
-    given_date = parseInt(req.params['date']);
-  } else if (req.params['date'].includes('-')) {
-    given_date =  req.params['date'];
+  if (/^\d+$/.test(req.params['date'])){
+    timestamp = new Date(+req.params['date'])
+  } else {
+    timestamp = new Date(req.params['date'])
   }
   
-  let timestamp = new Date(given_date);
+  
   console.log(timestamp);
   if (isNaN(timestamp) == true) {
     res.json({"error": "Invalid Date"});
