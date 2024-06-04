@@ -23,10 +23,15 @@ app.get("/", function (req, res) {
 app.get("/api/:date?", function (req, res) {
   console.log(req.params['date']);
 
+  if (!req.params['date']) {
+    let now = new Date();
+    return res.json({ "unix": now.getTime(), "utc": now.toUTCString() });
+  }
+
   if (!isNaN(parseInt(req.params['date'])) && !req.params['date'].includes('-')) {
     given_date = parseInt(req.params['date']);
-  } else {
-    given_date =  req.params['date']
+  } else if (req.params['date'].includes('-')) {
+    given_date =  req.params['date'];
   }
   
   let timestamp = new Date(given_date);
