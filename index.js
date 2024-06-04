@@ -20,14 +20,15 @@ app.get("/", function (req, res) {
 
 
 // your first API endpoint... 
-app.get("/api/2015-12-25", function (req, res) {
-  res.json({"unix": Date.now(), "utc": Date()});
+app.get("/api/:date?", function (req, res) {
+  console.log(req.params['date']);
+  let timestamp = new Date(req.params["date"]);
+
+  console.log(timestamp);
+  res.json({"unix": timestamp.getTime(), "utc": timestamp.toUTCString()});
 });
 
 
-app.get("/api/1451001600000", function (req, res) {
-  res.json({"unix": Date.now(), "utc": Date()});
-});
 
 
 // Listen on port set in environment variable or default to 3000
